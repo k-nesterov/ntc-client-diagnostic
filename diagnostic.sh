@@ -8,15 +8,15 @@ F_PING_HOST(){
 	PING_RESULT=$(ping -I $SRC_INT -c 5 -q $DST_IP | grep -E 'transmitted|mdev')
 }
 
-#if [[ $# -lt 2 ]] ; then
-#    echo 'no arguments'
-#    exit 1
-#fi
+if [[ $# -lt 2 ]] ; then
+    echo 'no arguments'
+    exit 1
+fi
 
-#RESULT_FILE=$1
-#OVPN_INT_NAME=$2
-RESULT_FILE="/tmp/RESULT_FILE.txt"
-OPENVPN_INT="tun0"
+RESULT_FILE=$1
+OVPN_INT_NAME=$2
+#RESULT_FILE="/tmp/RESULT_FILE.txt"
+#OPENVPN_INT="tun0"
 
 # collect os info
 MEMORY="MEMORY: $(free -m | awk 'NR==2{printf "%s/%sMB (%.2f%%)\n", $3,$2,$3*100/$2}')"
@@ -53,7 +53,7 @@ fi
 
 #ping gateways
 echo "" >> $RESULT_FILE
-F_PING_HOST ens160 $DEFAULT_GATEWAY_IP >> $RESULT_FILE
+F_PING_HOST $DEFAULT_GATEWAY_INT $DEFAULT_GATEWAY_IP >> $RESULT_FILE
 echo "PING OPENVPN GATEWAY RESULT:" >> $RESULT_FILE
 echo "$PING_RESULT" >> $RESULT_FILE
 echo "" >> $RESULT_FILE
