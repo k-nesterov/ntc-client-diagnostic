@@ -38,8 +38,10 @@ OPENVPN_GATEWAY="OVPN_GTW: $(echo $ROUTING_TABLE | grep $OPENVPN_INT | awk '{pri
 
 
 # create result file
-touch $RESULT_FILE
-chmod 755 $RESULT_FILE
+rm -f $RESULT_FILE && touch $RESULT_FILE && chmod 755 $RESULT_FILE
+
+
+# put info into $RESULT_FILE
 echo "$CPU, $MEMORY, $UPTIME" > $RESULT_FILE
 echo "$IPLIST" >> $RESULT_FILE
 echo "DEF_GTW: $DEFAULT_GATEWAY_INT=$DEFAULT_GATEWAY_IP; $OPENVPN_GATEWAY" >> $RESULT_FILE
