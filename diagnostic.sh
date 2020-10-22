@@ -34,7 +34,7 @@ ROUTING_TABLE=$(ip -4 route show)
 # get default gateway interface name and ip address
 DEFAULT_GATEWAY_IP=$(echo $ROUTING_TABLE | grep 'default' | awk '{print $3}')
 DEFAULT_GATEWAY_INT=$(echo $ROUTING_TABLE | grep 'default' | awk '{print $5}')
-OPENVPN_GATEWAY=$(echo $ROUTING_TABLE | grep $OPENVPN_INT | awk '{print $3}' | grep -v $OPENVPN_INT | head -n 1)
+OPENVPN_GATEWAY=$(ip -4 route show | grep $OPENVPN_INT | awk '{print $3}' | grep -v $OPENVPN_INT | head -n 1)
 
 
 # create result file
