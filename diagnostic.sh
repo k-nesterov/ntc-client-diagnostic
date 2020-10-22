@@ -14,7 +14,7 @@ if [[ $# -lt 2 ]] ; then
 fi
 
 RESULT_FILE=$1
-OVPN_INT_NAME=$2
+OPENVPN_INT=$2
 #RESULT_FILE="/tmp/RESULT_FILE.txt"
 #OPENVPN_INT="tun0"
 
