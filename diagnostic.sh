@@ -34,7 +34,7 @@ ROUTING_TABLE=$(ip -4 route show)
 # get default gateway interface name and ip address
 DEFAULT_GATEWAY_IP=$(echo $ROUTING_TABLE | grep 'default' | awk '{print $3}')
 DEFAULT_GATEWAY_INT=$(echo $ROUTING_TABLE | grep 'default' | awk '{print $5}')
-OPENVPN_GATEWAY="OVPN_GTW: $(echo $ROUTING_TABLE | grep $OPENVPN_INT | awk '{print $3}' | grep -v $OPENVPN_INT | head -n 1)"
+OPENVPN_GATEWAY=$(echo $ROUTING_TABLE | grep $OPENVPN_INT | awk '{print $3}' | grep -v $OPENVPN_INT | head -n 1)
 
 
 # create result file
@@ -44,14 +44,16 @@ rm -f $RESULT_FILE && touch $RESULT_FILE && chmod 755 $RESULT_FILE
 # put info into $RESULT_FILE
 echo "$CPU, $MEMORY, $UPTIME" > $RESULT_FILE
 echo "$IPLIST" >> $RESULT_FILE
-echo "DEF_GTW: $DEFAULT_GATEWAY_INT=$DEFAULT_GATEWAY_IP; $OPENVPN_GATEWAY" >> $RESULT_FILE
+
 
 
 #if regexp doesn't match an ip adddress in $OPENVPN_GATEWAY, then there is no active OpenVPN connection
 if ! [[ $OPENVPN_GATEWAY =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
         OPENVPN_GATEWAY="OVPN_GTW: NO_GTW"
+        echo "DEF_GTW: $DEFAULT_GATEWAY_INT=$DEFAULT_GATEWAY_IP; OVPN_GTW: $OPENVPN_GATEWAY" >> $RESULT_FILE
         exit 0
 fi
+echo "DEF_GTW: $DEFAULT_GATEWAY_INT=$DEFAULT_GATEWAY_IP; OVPN_GTW: $OPENVPN_GATEWAY" >> $RESULT_FILE
 
 #ping gateways
 echo "" >> $RESULT_FILE
