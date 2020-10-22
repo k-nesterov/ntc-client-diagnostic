@@ -20,4 +20,6 @@ bash ./diagnostic.sh /tmp/result_file.txt tun0
 ##Настройка со стороны Notouch Center
 В разделе Eventscripts можно добавить загрузку скрипта при подключении сети (Startup 2 - After Network Initialized) и его перемещение в папку /config/, которая не очищается при перезагрузке
 Сам запуск программы можно добавить в качестве нового соединения. Тип: custom command, в поле которого указать запуск скрипта и вызов всплывающего окна
+```shell
 bash /config/diagnostic.sh && tcdlg2 -h Diagnostic_info -b OK -g 800x600 -t "$(cat /tmp/diagnostic_result.txt)" --text-alignment=L
+```
